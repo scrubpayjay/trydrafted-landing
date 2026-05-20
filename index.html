@@ -6,6 +6,7 @@
 <title>Drafted — The AI back office for field service contractors</title>
 <meta name="description" content="Drafted runs in the background of your service-management stack and drafts your replies, quotes, and reports. Built by an operator, for operators. HVAC, landscape, plumbing, electrical, roofing, pool — any trade running on Jobber, ServiceTitan, or similar.">
 <link rel="canonical" href="https://trydrafted.io">
+<script defer data-domain="trydrafted.io" src="https://plausible.io/js/script.tagged-events.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -1741,38 +1742,45 @@ document.querySelectorAll('.viz-tab').forEach(btn => {
 });
 
 // ============ SIGNUP ============
-// Opens a mailto with the submitted email pre-filled in the body so the
-// visitor's email client sends the address to demo@trydrafted.io.
-// Upgrade path: swap this for a Formspree/Resend POST when traffic warrants.
 function handleSignup(form) {
   const btn = form.querySelector('button');
   const input = form.querySelector('input');
   const email = (input.value || '').trim();
   if (!email) return;
 
-  const subject = encodeURIComponent('Drafted signup request');
-  const body = encodeURIComponent(
-    'Hi Justin,\n\n' +
-    'I want to sign up for Drafted.\n\n' +
-    'Email: ' + email + '\n' +
-    'Trade/industry: \n' +
-    'Service-management software we use: \n' +
-    'Team size: \n\n' +
-    'Thanks'
-  );
-  // Trigger the user's mail client — gets the address into the To: field.
-  window.location.href = 'mailto:demo@trydrafted.io?subject=' + subject + '&body=' + body;
+  btn.disabled = true;
+  btn.textContent = '…';
 
-  // Visual feedback while their email client opens
-  btn.textContent = '✓';
-  btn.style.background = 'var(--accent)';
-  btn.style.color = 'var(--bg)';
-  setTimeout(() => {
-    btn.textContent = 'Sign up';
-    btn.style.background = '';
-    btn.style.color = '';
-    input.value = '';
-  }, 2400);
+  fetch('https://app.trydrafted.io/api/waitlist', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, source: 'landing' }),
+  })
+    .then(function(res) {
+      if (res.ok) {
+        if (typeof window.plausible === 'function') {
+          window.plausible('Waitlist Signup');
+        }
+        btn.textContent = '✓';
+        btn.style.background = 'var(--accent)';
+        btn.style.color = 'var(--bg)';
+        input.value = '';
+        setTimeout(function() {
+          btn.textContent = 'Sign up';
+          btn.style.background = '';
+          btn.style.color = '';
+          btn.disabled = false;
+        }, 2400);
+      } else {
+        throw new Error('server_error');
+      }
+    })
+    .catch(function() {
+      btn.textContent = 'Try again';
+      btn.style.background = '';
+      btn.style.color = '';
+      btn.disabled = false;
+    });
 }
 </script>
 
