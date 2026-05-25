@@ -18,5 +18,5 @@ Open index.html in a browser. Or run a quick static server:
 
 - HTML/CSS/JS only
 - Geist + Instrument Serif fonts from Google
-- Email forwarding via Namecheap → demo@trydrafted.io
+- Email forwarding via Namecheap → hello@trydrafted.io
 - Hosted on Vercel free tier

@@ -1146,6 +1146,7 @@ details summary::-webkit-details-marker { display: none; }
 .signup {
   position: relative;
   display: flex;
+  flex-wrap: wrap;
   max-width: 440px;
   margin: 24px auto 0;
   border: 1px solid var(--border-strong);
@@ -1180,6 +1181,29 @@ details summary::-webkit-details-marker { display: none; }
   transition: background 0.15s;
 }
 .signup button:hover { background: var(--accent); color: var(--bg); }
+
+.signup-success {
+  flex: 1;
+  margin: 0;
+  padding: 12px 16px;
+  color: var(--accent);
+  font-family: inherit;
+  font-size: 14.5px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.signup-error {
+  flex-basis: 100%;
+  margin: 0;
+  padding: 8px 16px 10px;
+  border-top: 1px solid var(--border-strong);
+  background: var(--bg-hover);
+  color: var(--warn);
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+  text-align: center;
+}
 
 .signup-tiny {
   margin-top: 12px;
@@ -1253,7 +1277,7 @@ footer a:hover { color: var(--text); }
         <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg>
         <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       </button>
-      <a href="mailto:demo@trydrafted.io?subject=Drafted%20demo%20request&amp;body=Hi%20Justin%2C%0A%0AI%27d%20like%20to%20see%20a%20Drafted%20demo.%0A%0ATrade%2Findustry%3A%20%0AService-management%20software%20we%20use%3A%20%0ATeam%20size%3A%20%0A%0AThanks" class="btn btn-primary">Book demo →</a>
+      <a href="https://calendly.com/justin-flexdev" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Book demo →</a>
     </div>
   </div>
 </nav>
@@ -1271,7 +1295,7 @@ footer a:hover { color: var(--text); }
   </p>
 
   <div class="hero-ctas">
-    <a href="mailto:demo@trydrafted.io?subject=Drafted%20demo%20request&amp;body=Hi%20Justin%2C%0A%0AI%27d%20like%20to%20see%20a%20Drafted%20demo.%0A%0ATrade%2Findustry%3A%20%0AService-management%20software%20we%20use%3A%20%0ATeam%20size%3A%20%0A%0AThanks" class="btn btn-primary">Book a 20-min demo →</a>
+    <a href="https://calendly.com/justin-flexdev" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Book a 20-min demo →</a>
     <a href="#agents" class="btn">See how it works</a>
   </div>
 
@@ -1697,11 +1721,12 @@ footer a:hover { color: var(--text); }
     </p>
 
     <div class="final-ctas">
-      <a href="mailto:demo@trydrafted.io?subject=Drafted%20demo%20request&amp;body=Hi%20Justin%2C%0A%0AI%27d%20like%20to%20see%20a%20Drafted%20demo.%0A%0ATrade%2Findustry%3A%20%0AService-management%20software%20we%20use%3A%20%0ATeam%20size%3A%20%0A%0AThanks" class="btn btn-primary">Book a 20-min demo →</a>
+      <a href="https://calendly.com/justin-flexdev" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Book a 20-min demo →</a>
     </div>
 
     <form class="signup" id="signup" onsubmit="event.preventDefault(); handleSignup(this);">
-      <input type="email" placeholder="Or sign up today · work email" required>
+      <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
+      <input type="email" name="email" placeholder="Or sign up today · work email" required>
       <button type="submit">Sign up</button>
     </form>
     <p class="signup-tiny">We'll reach out within 24 hours to get you set up · No spam</p>
@@ -1712,7 +1737,7 @@ footer a:hover { color: var(--text); }
 <footer>
   <div>© 2026 Drafted · Fort Lauderdale, FL</div>
   <div>Built by operators · for operators</div>
-  <div><a href="mailto:demo@trydrafted.io">demo@trydrafted.io</a></div>
+  <div><a href="https://calendly.com/justin-flexdev" target="_blank" rel="noopener noreferrer">Book a demo</a></div>
 </footer>
 
 <script>
@@ -1742,45 +1767,43 @@ document.querySelectorAll('.viz-tab').forEach(btn => {
 });
 
 // ============ SIGNUP ============
-function handleSignup(form) {
-  const btn = form.querySelector('button');
-  const input = form.querySelector('input');
-  const email = (input.value || '').trim();
-  if (!email) return;
+async function handleSignup(form) {
+  const button = form.querySelector('button[type="submit"]');
+  const input = form.querySelector('input[type="email"]');
+  const originalLabel = button.textContent;
+  button.disabled = true;
+  button.textContent = 'Signing up…';
 
-  btn.disabled = true;
-  btn.textContent = '…';
+  const formData = new FormData();
+  formData.append('access_key', '1c80ae28-916e-4af2-9c1d-f105f8d7099c');
+  formData.append('email', input.value);
+  formData.append('source', 'landing');
+  formData.append('subject', 'New signup — trydrafted.io');
+  formData.append('from_name', 'Drafted landing page');
+  formData.append('botcheck', form.querySelector('[name=botcheck]')?.value || '');
 
-  fetch('https://app.trydrafted.io/api/waitlist', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, source: 'landing' }),
-  })
-    .then(function(res) {
-      if (res.ok) {
-        if (typeof window.plausible === 'function') {
-          window.plausible('Waitlist Signup');
-        }
-        btn.textContent = '✓';
-        btn.style.background = 'var(--accent)';
-        btn.style.color = 'var(--bg)';
-        input.value = '';
-        setTimeout(function() {
-          btn.textContent = 'Sign up';
-          btn.style.background = '';
-          btn.style.color = '';
-          btn.disabled = false;
-        }, 2400);
-      } else {
-        throw new Error('server_error');
-      }
-    })
-    .catch(function() {
-      btn.textContent = 'Try again';
-      btn.style.background = '';
-      btn.style.color = '';
-      btn.disabled = false;
+  try {
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      body: formData
     });
+    const data = await res.json();
+
+    if (!data.success) throw new Error(data.message || 'Submission failed');
+
+    form.innerHTML = '<p class="signup-success">Thanks — we\'ll be in touch.</p>';
+    if (typeof plausible === 'function') plausible('Signup');
+  } catch (err) {
+    button.disabled = false;
+    button.textContent = originalLabel;
+    let errBox = form.querySelector('.signup-error');
+    if (!errBox) {
+      errBox = document.createElement('div');
+      errBox.className = 'signup-error';
+      form.appendChild(errBox);
+    }
+    errBox.textContent = 'Something went wrong. Please try again.';
+  }
 }
 </script>
 
