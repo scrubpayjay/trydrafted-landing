@@ -1146,33 +1146,45 @@ details summary::-webkit-details-marker { display: none; }
 .signup {
   position: relative;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 10px;
   max-width: 440px;
   margin: 24px auto 0;
+  padding: 12px;
   border: 1px solid var(--border-strong);
   border-radius: 10px;
   background: var(--bg);
-  overflow: hidden;
 }
 
-.signup input {
-  flex: 1;
-  padding: 12px 16px;
-  border: none;
-  background: transparent;
+.signup input[type="text"],
+.signup input[type="email"],
+.signup input[type="tel"] {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-elev);
   color: var(--text);
   font-family: inherit;
   font-size: 14.5px;
   outline: none;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.signup input:focus {
+  border-color: var(--border-strong);
+  background: var(--bg);
 }
 
 .signup input::placeholder { color: var(--text-faint); }
 
 .signup button {
-  padding: 0 18px;
+  width: 100%;
+  padding: 12px 18px;
   background: var(--text);
   color: var(--bg);
   border: none;
+  border-radius: 8px;
   font-family: inherit;
   font-size: 14px;
   font-weight: 500;
@@ -1181,11 +1193,11 @@ details summary::-webkit-details-marker { display: none; }
   transition: background 0.15s;
 }
 .signup button:hover { background: var(--accent); color: var(--bg); }
+.signup button:disabled { opacity: 0.7; cursor: default; }
 
 .signup-success {
-  flex: 1;
   margin: 0;
-  padding: 12px 16px;
+  padding: 12px 14px;
   color: var(--accent);
   font-family: inherit;
   font-size: 14.5px;
@@ -1194,11 +1206,8 @@ details summary::-webkit-details-marker { display: none; }
 }
 
 .signup-error {
-  flex-basis: 100%;
   margin: 0;
-  padding: 8px 16px 10px;
-  border-top: 1px solid var(--border-strong);
-  background: var(--bg-hover);
+  padding: 4px 14px 2px;
   color: var(--warn);
   font-family: 'Geist Mono', monospace;
   font-size: 12px;
@@ -1277,7 +1286,7 @@ footer a:hover { color: var(--text); }
         <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg>
         <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       </button>
-      <a href="https://calendly.com/justin-flexdev" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Book demo →</a>
+      <a href="#signup" class="btn btn-primary">Book demo →</a>
     </div>
   </div>
 </nav>
@@ -1295,7 +1304,7 @@ footer a:hover { color: var(--text); }
   </p>
 
   <div class="hero-ctas">
-    <a href="https://calendly.com/justin-flexdev" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Book a 20-min demo →</a>
+    <a href="#signup" class="btn btn-primary">Book a 20-min demo →</a>
     <a href="#agents" class="btn">See how it works</a>
   </div>
 
@@ -1651,7 +1660,7 @@ footer a:hover { color: var(--text); }
     </div>
   </div>
 
-  <p class="case-footer">Onboarding HVAC, plumbing, electrical, roofing, and pool service operators next. <a href="#demo">Get started today</a> if your trade isn't shown above.</p>
+  <p class="case-footer">Onboarding HVAC, plumbing, electrical, roofing, and pool service operators next. <a href="#signup">Get started today</a> if your trade isn't shown above.</p>
 </section>
 
 <!-- FAQ -->
@@ -1721,13 +1730,15 @@ footer a:hover { color: var(--text); }
     </p>
 
     <div class="final-ctas">
-      <a href="https://calendly.com/justin-flexdev" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Book a 20-min demo →</a>
+      <a href="#signup" class="btn btn-primary">Book a 20-min demo →</a>
     </div>
 
     <form class="signup" id="signup" onsubmit="event.preventDefault(); handleSignup(this);">
       <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
-      <input type="email" name="email" placeholder="Or sign up today · work email" required>
-      <button type="submit">Sign up</button>
+      <input type="text" name="name" placeholder="Your name" autocomplete="name" required>
+      <input type="email" name="email" placeholder="Work email" autocomplete="email" required>
+      <input type="tel" name="phone" placeholder="Phone (optional)" autocomplete="tel">
+      <button type="submit">Request demo</button>
     </form>
     <p class="signup-tiny">We'll reach out within 24 hours to get you set up · No spam</p>
   </div>
@@ -1737,7 +1748,7 @@ footer a:hover { color: var(--text); }
 <footer>
   <div>© 2026 Drafted · Fort Lauderdale, FL</div>
   <div>Built by operators · for operators</div>
-  <div><a href="https://calendly.com/justin-flexdev" target="_blank" rel="noopener noreferrer">Book a demo</a></div>
+  <div><a href="#signup">Book a demo</a></div>
 </footer>
 
 <script>
@@ -1769,16 +1780,20 @@ document.querySelectorAll('.viz-tab').forEach(btn => {
 // ============ SIGNUP ============
 async function handleSignup(form) {
   const button = form.querySelector('button[type="submit"]');
-  const input = form.querySelector('input[type="email"]');
+  const nameInput = form.querySelector('input[name="name"]');
+  const emailInput = form.querySelector('input[name="email"]');
+  const phoneInput = form.querySelector('input[name="phone"]');
   const originalLabel = button.textContent;
   button.disabled = true;
   button.textContent = 'Signing up…';
 
   const formData = new FormData();
   formData.append('access_key', '1c80ae28-916e-4af2-9c1d-f105f8d7099c');
-  formData.append('email', input.value);
+  formData.append('name', nameInput.value);
+  formData.append('email', emailInput.value);
+  formData.append('phone', phoneInput.value);
   formData.append('source', 'landing');
-  formData.append('subject', 'New signup — trydrafted.io');
+  formData.append('subject', 'New demo request — ' + nameInput.value);
   formData.append('from_name', 'Drafted landing page');
   formData.append('botcheck', form.querySelector('[name=botcheck]')?.value || '');
 
@@ -1805,6 +1820,20 @@ async function handleSignup(form) {
     errBox.textContent = 'Something went wrong. Please try again.';
   }
 }
+
+// ============ CTA → SIGNUP SCROLL ============
+document.querySelectorAll('a[href="#signup"]').forEach(function(link) {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = document.getElementById('signup');
+    if (!target) return;
+    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(function() {
+      const input = target.querySelector('input[name="name"]');
+      if (input) input.focus({ preventScroll: true });
+    }, 500);
+  });
+});
 </script>
 
 </body>
