@@ -1795,7 +1795,10 @@ async function handleSignup(form) {
   formData.append('source', 'landing');
   formData.append('subject', 'New demo request — ' + nameInput.value);
   formData.append('from_name', 'Drafted landing page');
-  formData.append('botcheck', form.querySelector('[name=botcheck]')?.value || '');
+  const bot = form.querySelector('[name=botcheck]');
+  if (bot && bot.checked) {
+    formData.append('botcheck', 'on');
+  }
 
   try {
     const res = await fetch('https://api.web3forms.com/submit', {
