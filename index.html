@@ -7,6 +7,23 @@
 <meta name="description" content="Drafted runs in the background of your service-management stack and drafts your replies, quotes, and reports. Built by an operator, for operators. HVAC, landscape, plumbing, electrical, roofing, pool — any trade running on Jobber, ServiceTitan, or similar.">
 <link rel="canonical" href="https://trydrafted.io">
 <script defer data-domain="trydrafted.io" src="https://plausible.io/js/script.tagged-events.js"></script>
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', 'PASTE_YOUR_PIXEL_ID_HERE');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=PASTE_YOUR_PIXEL_ID_HERE&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -1811,6 +1828,7 @@ async function handleSignup(form) {
 
     form.innerHTML = '<p class="signup-success">Thanks — we\'ll be in touch.</p>';
     if (typeof plausible === 'function') plausible('Signup');
+    if (typeof fbq === 'function') fbq('track', 'Lead');
   } catch (err) {
     button.disabled = false;
     button.textContent = originalLabel;
@@ -1823,6 +1841,25 @@ async function handleSignup(form) {
     errBox.textContent = 'Something went wrong. Please try again.';
   }
 }
+
+// ============ META PIXEL: ViewContent on #agents and /quotes panel ============
+(function () {
+  var firedViewContent = false;
+  var targets = ['#agents', '[data-panel="product"]'];
+  targets.forEach(function (sel) {
+    var el = document.querySelector(sel);
+    if (!el) return;
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting && !firedViewContent) {
+          firedViewContent = true;
+          if (typeof fbq === 'function') fbq('track', 'ViewContent', { content_name: 'demo_section' });
+        }
+      });
+    }, { threshold: 0.3 });
+    obs.observe(el);
+  });
+})();
 
 // ============ CTA → SIGNUP SCROLL ============
 document.querySelectorAll('a[href="#signup"]').forEach(function(link) {
