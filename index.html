@@ -1993,8 +1993,9 @@ document.addEventListener('click', function (e) {
 });
 
 // ============ CALENDLY → SCHEDULE CONVERSION ============
-// Fires when a user confirms a time slot inside the Calendly popup.
-// This is the booked-demo event — separate from Lead (form submit).
+// Fires when a user confirms a time slot inside the Calendly popup, then
+// redirects to /thanks.html so we have a URL-based conversion definition
+// for Meta and a remarketing audience of booked demos.
 (function () {
   var fired = false;
   window.addEventListener('message', function (e) {
@@ -2004,6 +2005,8 @@ document.addEventListener('click', function (e) {
     fired = true;
     if (typeof fbq === 'function') fbq('track', 'Schedule', { content_name: 'calendly_booking' });
     if (typeof plausible === 'function') plausible('Demo Booked');
+    // Brief delay to let the pixel beacon send before unloading the page
+    setTimeout(function () { window.location.href = '/thanks.html'; }, 600);
   });
 })();
 
