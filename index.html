@@ -1992,6 +1992,21 @@ document.addEventListener('click', function (e) {
   openCalendly();
 });
 
+// ============ CALENDLY → SCHEDULE CONVERSION ============
+// Fires when a user confirms a time slot inside the Calendly popup.
+// This is the booked-demo event — separate from Lead (form submit).
+(function () {
+  var fired = false;
+  window.addEventListener('message', function (e) {
+    if (!e.data || typeof e.data !== 'object') return;
+    if (e.data.event !== 'calendly.event_scheduled') return;
+    if (fired) return;
+    fired = true;
+    if (typeof fbq === 'function') fbq('track', 'Schedule', { content_name: 'calendly_booking' });
+    if (typeof plausible === 'function') plausible('Demo Booked');
+  });
+})();
+
 // ============ META PIXEL: ViewContent on #agents and /quotes panel ============
 (function () {
   var firedViewContent = false;
