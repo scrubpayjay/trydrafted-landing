@@ -24,6 +24,9 @@ fbq('track', 'PageView');
 src="https://www.facebook.com/tr?id=312530092487907&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel -->
+<!-- Calendly -->
+<link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -1256,6 +1259,87 @@ footer {
 footer a { color: var(--text-faint); text-decoration: none; }
 footer a:hover { color: var(--text); }
 
+/* ============ INLINE HERO CAPTURE ============ */
+.hero-capture {
+  max-width: 460px;
+  margin: 0 auto 12px;
+}
+
+.hero-capture-row {
+  display: flex;
+  gap: 6px;
+  padding: 6px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-strong);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px -16px rgba(0,0,0,0.4), 0 0 0 4px var(--accent-soft);
+}
+
+.hero-capture-row input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 14px;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 15px;
+  outline: none;
+  letter-spacing: -0.01em;
+}
+
+.hero-capture-row input::placeholder { color: var(--text-faint); }
+
+.hero-capture-row button {
+  white-space: nowrap;
+  padding: 12px 18px;
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 14.5px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: -0.01em;
+  transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+}
+
+.hero-capture-row button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px var(--accent-glow);
+}
+
+.hero-capture-row button:disabled {
+  opacity: 0.7;
+  cursor: default;
+  transform: none;
+}
+
+.hero-capture-meta {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  color: var(--text-faint);
+  letter-spacing: 0.04em;
+  margin: 0 auto 18px;
+  text-align: center;
+}
+
+.hero-capture-meta a {
+  color: var(--text-dim);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.hero-capture-meta a:hover { color: var(--accent); }
+.hero-capture-meta .sep { opacity: 0.4; margin: 0 8px; }
+
+@media (max-width: 540px) {
+  .hero-capture-row { flex-direction: column; padding: 8px; gap: 8px; }
+  .hero-capture-row button { width: 100%; }
+}
+
 /* ============ RESPONSIVE ============ */
 @media (max-width: 1024px) {
   .case-card { grid-template-columns: 1fr; gap: 40px; padding: 40px 32px; }
@@ -1304,7 +1388,7 @@ footer a:hover { color: var(--text); }
         <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg>
         <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       </button>
-      <a href="#signup" class="btn btn-primary">Book demo →</a>
+      <a href="#" class="btn btn-primary js-book-demo">Book demo →</a>
     </div>
   </div>
 </nav>
@@ -1321,10 +1405,18 @@ footer a:hover { color: var(--text); }
     Drafted runs in the background of your service-management stack. It drafts your lead replies, quotes, route plans, margin alerts, and reports overnight — so you wake up to a finished inbox. Built for any field service trade running on Jobber, ServiceTitan, or similar.
   </p>
 
-  <div class="hero-ctas">
-    <a href="#signup" class="btn btn-primary">Book a 20-min demo →</a>
-    <a href="#agents" class="btn">See how it works</a>
-  </div>
+  <form class="hero-capture" id="hero-capture" onsubmit="event.preventDefault(); handleHeroCapture(this);">
+    <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
+    <div class="hero-capture-row">
+      <input type="email" name="email" placeholder="Your work email" autocomplete="email" required>
+      <button type="submit">Get my demo →</button>
+    </div>
+  </form>
+  <p class="hero-capture-meta">
+    <a class="js-book-demo">Book a time directly →</a>
+    <span class="sep">·</span>
+    <a href="#agents">See how it works</a>
+  </p>
 
   <div class="hero-meta">JOBBER · SERVICETITAN · HOUSECALL PRO · COMPANYCAM · CLAUDE</div>
 
@@ -1748,7 +1840,7 @@ footer a:hover { color: var(--text); }
     </p>
 
     <div class="final-ctas">
-      <a href="#signup" class="btn btn-primary">Book a 20-min demo →</a>
+      <a href="#" class="btn btn-primary js-book-demo">Book a 20-min demo →</a>
     </div>
 
     <form class="signup" id="signup" onsubmit="event.preventDefault(); handleSignup(this);">
@@ -1766,7 +1858,7 @@ footer a:hover { color: var(--text); }
 <footer>
   <div>© 2026 Drafted · Fort Lauderdale, FL</div>
   <div>Built by operators · for operators</div>
-  <div><a href="#signup">Book a demo</a></div>
+  <div><a href="#" class="js-book-demo">Book a demo</a></div>
 </footer>
 
 <script>
@@ -1795,7 +1887,53 @@ document.querySelectorAll('.viz-tab').forEach(btn => {
   });
 });
 
-// ============ SIGNUP ============
+// ============ CALENDLY ============
+const CALENDLY_URL = 'https://calendly.com/hello-trydrafted/30min';
+
+function openCalendly(prefill) {
+  if (typeof Calendly !== 'undefined' && Calendly.initPopupWidget) {
+    Calendly.initPopupWidget({ url: CALENDLY_URL, prefill: prefill || {} });
+  } else {
+    window.open(CALENDLY_URL, '_blank', 'noopener');
+  }
+  return false;
+}
+
+// ============ HERO INLINE CAPTURE ============
+async function handleHeroCapture(form) {
+  const button = form.querySelector('button[type="submit"]');
+  const emailInput = form.querySelector('input[name="email"]');
+  const email = emailInput.value.trim();
+  const originalLabel = button.textContent;
+  button.disabled = true;
+  button.textContent = 'Opening…';
+
+  // Fire conversion pixels immediately so we capture the lead even if backend fails
+  if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'hero_capture' });
+  if (typeof plausible === 'function') plausible('Signup', { props: { source: 'hero' } });
+
+  // Fire-and-forget to Web3Forms — we don't want to block the Calendly open on this
+  try {
+    const formData = new FormData();
+    formData.append('access_key', '1c80ae28-916e-4af2-9c1d-f105f8d7099c');
+    formData.append('email', email);
+    formData.append('source', 'hero-inline');
+    formData.append('subject', 'Hero capture — ' + email);
+    formData.append('from_name', 'Drafted landing page (hero)');
+    const bot = form.querySelector('[name=botcheck]');
+    if (bot && bot.checked) formData.append('botcheck', 'on');
+    fetch('https://api.web3forms.com/submit', { method: 'POST', body: formData }).catch(() => {});
+  } catch (e) {}
+
+  openCalendly({ email: email });
+
+  setTimeout(() => {
+    button.disabled = false;
+    button.textContent = originalLabel;
+  }, 1500);
+}
+
+// ============ SIGNUP (bottom form) ============
 async function handleSignup(form) {
   const button = form.querySelector('button[type="submit"]');
   const nameInput = form.querySelector('input[name="name"]');
@@ -1803,7 +1941,7 @@ async function handleSignup(form) {
   const phoneInput = form.querySelector('input[name="phone"]');
   const originalLabel = button.textContent;
   button.disabled = true;
-  button.textContent = 'Signing up…';
+  button.textContent = 'Opening calendar…';
 
   const formData = new FormData();
   formData.append('access_key', '1c80ae28-916e-4af2-9c1d-f105f8d7099c');
@@ -1818,6 +1956,10 @@ async function handleSignup(form) {
     formData.append('botcheck', 'on');
   }
 
+  // Fire pixels first so we count the lead regardless of backend/Calendly state
+  if (typeof plausible === 'function') plausible('Signup', { props: { source: 'final' } });
+  if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'final_form' });
+
   try {
     const res = await fetch('https://api.web3forms.com/submit', {
       method: 'POST',
@@ -1827,9 +1969,8 @@ async function handleSignup(form) {
 
     if (!data.success) throw new Error(data.message || 'Submission failed');
 
-    form.innerHTML = '<p class="signup-success">Thanks — we\'ll be in touch.</p>';
-    if (typeof plausible === 'function') plausible('Signup');
-    if (typeof fbq === 'function') fbq('track', 'Lead');
+    form.innerHTML = '<p class="signup-success">Thanks — pick a time on the calendar.</p>';
+    openCalendly({ name: nameInput.value, email: emailInput.value });
   } catch (err) {
     button.disabled = false;
     button.textContent = originalLabel;
@@ -1842,6 +1983,14 @@ async function handleSignup(form) {
     errBox.textContent = 'Something went wrong. Please try again.';
   }
 }
+
+// ============ BOOK DEMO BUTTONS → CALENDLY ============
+document.addEventListener('click', function (e) {
+  const trigger = e.target.closest('.js-book-demo');
+  if (!trigger) return;
+  e.preventDefault();
+  openCalendly();
+});
 
 // ============ META PIXEL: ViewContent on #agents and /quotes panel ============
 (function () {
