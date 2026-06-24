@@ -829,6 +829,8 @@ h2.section-headline .serif { color: var(--text-dim); }
   color: var(--bg);
 }
 
+.agent-card.featured.popular::after { content: 'MOST POPULAR'; }
+
 .agent-num {
   font-family: 'Geist Mono', monospace;
   font-size: 11px;
@@ -1386,6 +1388,8 @@ footer a:hover { color: var(--text); }
       <a href="#how" class="nav-link">How it works</a>
       <a href="#case" class="nav-link">Customers</a>
       <a href="#faq" class="nav-link">FAQ</a>
+      <a href="pricing.html" class="nav-link">Pricing</a>
+      <!-- TODO: also add this Pricing link to blog/*.html navs (8 pages) during the next blog-post nav refresh -->
       <a href="blog.html" class="nav-link">Blog</a>
     </div>
     <div class="nav-actions">
@@ -1856,6 +1860,52 @@ footer a:hover { color: var(--text); }
   </div>
 
   <p class="case-footer">Onboarding HVAC, plumbing, electrical, roofing, and pool service business owners next. <a href="#signup">Get started today</a> if your trade isn't shown above.</p>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" class="section">
+  <span class="section-label">Pricing</span>
+  <h2 class="section-headline">
+    Less than the cost of <span class="serif">one missed quote a week.</span>
+  </h2>
+  <p class="section-sub">
+    Flat monthly. No setup fee. No per-seat charges. Cancel anytime. Replaces $50K–$150K of operator labor a year.
+  </p>
+
+  <div class="agents-grid">
+
+    <div class="agent-card">
+      <span class="agent-num">Solo & Small Crews</span>
+      <div style="font-size: 40px; font-weight: 600; letter-spacing: -0.03em; line-height: 1; margin-bottom: 8px;">
+        $400<span style="font-size: 14px; color: var(--text-faint); font-weight: 500;">/mo</span>
+      </div>
+      <p class="desc">Owner-operators and small teams running 1–2 crews.</p>
+      <p class="desc" style="margin-bottom: 6px;"><span style="color: var(--accent); font-weight: 600;">✓</span> All 11 overnight agents (quotes, lead replies, follow-ups, upsells, more)</p>
+      <p class="desc" style="margin-bottom: 6px;"><span style="color: var(--accent); font-weight: 600;">✓</span> Connects to Jobber, ServiceTitan, Housecall Pro, CompanyCam</p>
+      <p class="desc" style="margin-bottom: 6px;"><span style="color: var(--accent); font-weight: 600;">✓</span> Drafts waiting every morning — you approve, it sends</p>
+      <p class="desc" style="margin-bottom: 20px;"><span style="color: var(--accent); font-weight: 600;">✓</span> Email + chat support</p>
+      <a href="#demo" class="btn" style="width: 100%; justify-content: center;">Book a demo →</a>
+    </div>
+
+    <div class="agent-card featured popular">
+      <span class="agent-num">Multi-Crew</span>
+      <div style="font-size: 40px; font-weight: 600; letter-spacing: -0.03em; line-height: 1; margin-bottom: 8px;">
+        $1,500<span style="font-size: 14px; color: var(--text-faint); font-weight: 500;">/mo</span>
+      </div>
+      <p class="desc">Growing shops running 10+ crews or multiple locations.</p>
+      <p class="desc" style="margin-bottom: 6px;"><span style="color: var(--accent); font-weight: 600;">✓</span> Everything in Solo & Small Crews</p>
+      <p class="desc" style="margin-bottom: 6px;"><span style="color: var(--accent); font-weight: 600;">✓</span> Higher volume across more crews and locations</p>
+      <p class="desc" style="margin-bottom: 6px;"><span style="color: var(--accent); font-weight: 600;">✓</span> Margin alerts + pipeline reporting across the operation</p>
+      <p class="desc" style="margin-bottom: 6px;"><span style="color: var(--accent); font-weight: 600;">✓</span> Priority onboarding (live the same week)</p>
+      <p class="desc" style="margin-bottom: 20px;"><span style="color: var(--accent); font-weight: 600;">✓</span> Dedicated support</p>
+      <a href="#demo" class="btn btn-primary" style="width: 100%; justify-content: center;">Book a demo →</a>
+    </div>
+
+  </div>
+
+  <p style="margin-top: 32px; font-size: 14px; color: var(--text-dim); text-align: center;">
+    Not sure which fits? A 20-minute demo against your real data gets you an exact number. <a href="pricing.html" style="color: var(--accent); text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);">See full pricing →</a>
+  </p>
 </section>
 
 <!-- FAQ -->
